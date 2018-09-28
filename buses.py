@@ -99,7 +99,7 @@ def main():
 
     arrival_times = sorted(list(map(get_arrival_time, upcoming_live_buses)))
 
-    current_time = datetime.datetime.now().astimezone(british_time)
+    current_time = datetime.datetime.now().replace(tzinfo=british_time)
     minutes_away = [get_difference_in_minutes_between(arrival_time, current_time) for arrival_time in arrival_times]
 
     filtered = [m for m in minutes_away if m >= 2][:3]
