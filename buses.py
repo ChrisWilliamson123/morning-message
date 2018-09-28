@@ -99,10 +99,8 @@ def main():
 
     arrival_times = sorted(list(map(get_arrival_time, upcoming_live_buses)))
 
-    current_time = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=pytz.utc).astimezone(british_time)
-    print(current_time, arrival_times[0])
+    current_time = datetime.datetime.now(datetime.timezone.utc).astimezone(british_time)
     minutes_away = [get_difference_in_minutes_between(arrival_time, current_time) for arrival_time in arrival_times]
-    print(minutes_away)
     filtered = [m for m in minutes_away if m >= 2][:3]
     print(create_message(filtered, origin['destination_name']))
 
