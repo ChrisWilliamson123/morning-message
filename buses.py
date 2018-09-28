@@ -34,12 +34,12 @@ data = lambda bus_stop: {
 
 stops = {
     'work': {
-        'id': '1800NF09811',
-        'destination_name': 'Salford Central'
+        'origin_stop_id': '1800NF03991',
+        'name': 'Media City UK'
     },
     'home': {
-        'id': '1800NF03991',
-        'destination_name': 'Media City UK'
+        'origin_stop_id': '1800NF09811',
+        'name': 'Salford Central'
     }
 }
 
@@ -78,21 +78,21 @@ def create_message(bus_times, destination_name):
     else:
         return 'The upcoming buses to %s leave in %s.' % (destination_name, parse_multiple_times(time_strings))
 
-def get_origin(arguments):
+def get_destination(arguments):
     if len(arguments) < 2:
-        print('Must provide start location as an argument')
+        print('Must provide destination as an argument')
         sys.exit(1)
-    origin_name = sys.argv[1]
+    destination_name = sys.argv[1]
     allowed_values = list(stops.keys())
-    if origin_name not in allowed_values:
-        print('Origin must be one of %s' % allowed_values)
+    if destination_name not in allowed_values:
+        print('Destination must be one of %s' % allowed_values)
         sys.exit(1)
-    return stops[origin_name]
+    return stops[destination_name]
 
 def main():
-    origin = get_origin(sys.argv)
+    destination = get_destination(sys.argv)
 
-    response = requests.post('https://api.stagecoachbus.com/adc/stop-monitor', headers=headers, json=data(origin['id']))
+    response = requests.post('https://api.stagecoachbus.com/adc/stop-monitor', headers=headers, json=data(destination['origin_stop_id']))
     json_result = response.json()
 
     upcoming_live_buses = get_live_buses(json_result)
@@ -102,7 +102,7 @@ def main():
     current_time = datetime.datetime.now(datetime.timezone.utc).astimezone(british_time)
     minutes_away = [get_difference_in_minutes_between(arrival_time, current_time) for arrival_time in arrival_times]
     filtered = [m for m in minutes_away if m >= 2][:3]
-    print(create_message(filtered, origin['destination_name']))
+    print(create_message(filtered, destination['name']))
 
 if __name__ == '__main__':
     main()
