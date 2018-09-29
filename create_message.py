@@ -19,9 +19,9 @@ def create_budgeting_message(budgeting_data):
     under_budget = spent < budget
 
     if under_budget:
-        return 'Yesterday you saved %s therefore increasing your budgeting pot balance to %s' % (pence_to_words(saved), pence_to_words(budgeting_data['pot_balance']))
+        return 'Yesterday you saved %s therefore increasing your budgeting pot balance to %s.' % (pence_to_words(saved), pence_to_words(budgeting_data['pot_balance']))
     else:
-        return 'Yesterday you were over budget by %s therefore decreasing your budgeting pot balance to %s' % (pence_to_words(saved*-1), pence_to_words(budgeting_data['pot_balance']))
+        return 'Yesterday you were over budget by %s therefore decreasing your budgeting pot balance to %s.' % (pence_to_words(saved*-1), pence_to_words(budgeting_data['pot_balance']))
 
 if __name__ == "__main__":
     data = json.loads(sys.stdin.readline())
