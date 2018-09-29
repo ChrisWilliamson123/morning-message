@@ -8,7 +8,7 @@ def custom_strftime(format, t):
 
 def pence_to_words(pence):
   pounds = str(int(pence/100))
-  pence = '709'
+  pence = str(pence)
   pence = pence[-2:] if pence[-2] is not '0' else pence[-1]
   return '%s pounds %s' % (pounds, (pence + ' pence') if int(pence) > 0 else '')
 
