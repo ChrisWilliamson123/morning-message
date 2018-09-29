@@ -6,12 +6,21 @@ def suffix(d):
 def custom_strftime(format, t):
     return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
 
-# def create_bus_times_string(times):
-#     less_times = times[0:3]
-#     as_strings = ['%s, ' % t for t in less_times]
-#     as_strings[-2] = as_strings[-2].replace(', ', ' and ')
-#     as_strings[-1] = as_strings[-1].replace(', ', '')
-#     return ''.join(as_strings)
+def pence_to_words(pence):
+  pounds = str(int(pence/100))
+  pence = str(pence)[-2:]
+  return '%s pounds %s' % (pounds, (pence + ' pence') if int(pence) > 0 else '')
+
+def create_budgeting_message(budgeting_data):
+    saved = budgeting_data['saved']
+    budget = budgeting_data['budget']
+    spent = budgeting_data['spent']
+    under_budget = spent < budget
+
+    if under_budget:
+        return 'Yesterday you were over budget by %s therefore decreasing your budgeting pot balance to %s' % (saved*-1, budgeting_data['pot_balance'])
+    else:
+        return 'Yesterday you saved %s therefore increasing your budgeting pot balance to %s' % (saved, budgeting_data['pot_balance'])
 
 if __name__ == "__main__":
     data = json.loads(sys.stdin.readline())
@@ -28,12 +37,7 @@ if __name__ == "__main__":
         weather_data['precipitationProbability']
     )
 
-    budgeting_message = 'Yesterday you saved %s therefore increasing your budgeting pot balance to %s.' % (
-        budgeting_data['saved'],
-        budgeting_data['pot_balance']
-    )
+    battery_message = 'You have %s percent battery remaining.' % data['battery']
 
-
-    final_message = '%s %s %s %s' % (date_message, weather_message, budgeting_message, 'You have %s percent battery remaining.' % data['battery'])
+    final_message = '%s %s %s %s' % (date_message, weather_message, create_budgeting_message(budgeting_data), battery_message)
     print(final_message)
-
