@@ -8,7 +8,8 @@ def custom_strftime(format, t):
 
 def pence_to_words(pence):
   pounds = str(int(pence/100))
-  pence = str(pence)[-2:]
+  pence = str(pence)
+  pence = pence[-2:] if pence[-2] is not '0' else pence[-1]
   return '%s pounds %s' % (pounds, (pence + ' pence') if int(pence) > 0 else '')
 
 def create_budgeting_message(budgeting_data):
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     weather_data = data['weather']
     budgeting_data = data['budgeting']
 
-    today = custom_strftime('%A {S} %B %Y', datetime.date.today())
+    today = custom_strftime('%A {S} %B', datetime.date.today())
     date_message = 'Good Morning Chris. Today is %s.' % today
 
     weather_message = 'The weather will provide %s. There will be a high of %s and a low of %s, with %s percent chance of rain.' % (
