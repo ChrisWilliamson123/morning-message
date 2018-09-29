@@ -1,6 +1,6 @@
 weatherData="$(python weather.py)"
-busData="$(python buses.py)"
 budgetingData="$(python budgeting.py)"
-echo $weatherData $busData $budgetingData | jq -s -c add
+battery='{"battery": '$1'}'
+echo $weatherData $budgetingData $battery | jq -s -c add
 
 

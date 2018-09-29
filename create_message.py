@@ -18,10 +18,10 @@ if __name__ == "__main__":
     weather_data = data['weather']
     budgeting_data = data['budgeting']
 
-    today = custom_strftime('%A the {S} %B %Y', datetime.date.today())
-    date_message = 'Good Morning Chris, Today is %s' % today
+    today = custom_strftime('%A {S} %B %Y', datetime.date.today())
+    date_message = 'Good Morning Chris. Today is %s.' % today
 
-    weather_message = 'and the weather will provide %s. There will be a high of %s and a low of %s, with %s percent chance of rain.' % (
+    weather_message = 'The weather will provide %s. There will be a high of %s and a low of %s, with %s percent chance of rain.' % (
         weather_data['description'],
         weather_data['maxTemp'],
         weather_data['minTemp'],
@@ -34,6 +34,6 @@ if __name__ == "__main__":
     )
 
 
-    final_message = '%s %s %s' % (date_message, weather_message, budgeting_message)
+    final_message = '%s %s %s %s' % (date_message, weather_message, budgeting_message, 'You have %s percent battery remaining.' % data['battery'])
     print(final_message)
 
